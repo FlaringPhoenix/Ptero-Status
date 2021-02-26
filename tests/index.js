@@ -1,7 +1,7 @@
 const Status = require('../index');
 
 const Panel = new Status.Panel(4000, {
-    token: "NzI4NzQxNzI0NTQ0OTU4NTI1.Xv-zng.0szMiWA0G4I7G-LWdPGLto1ifRE",
+    token: "BOT-TOKEN",
     guildID: '704423873415741510',
     channelID: '803751582830821396',
     color: '#06cce2', // Embed color
