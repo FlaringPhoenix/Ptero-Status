@@ -69,6 +69,7 @@ class Panel {
         if (this.message == undefined) {
             let messages = await this.channel.messages.fetch({ limit: 10 });
             let lastMessage = (messages.filter(m => m.author.id == this.client.user.id)).first();
+            if (!lastMessage) lastMessage = await this.channel.send(new Discord.MessageEmbed().setTitle("Starting!").setColor(this.color));
             this.message = lastMessage;
         }
 
