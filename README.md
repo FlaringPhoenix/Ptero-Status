@@ -18,7 +18,7 @@ npm i node-status
 
 ### Node:
 ```javascript
-const NodeStatus = require('node-status');
+const NodeStatus = require('nodestatus');
 
 const Daemon1 = new NodeStatus.Daemon("Node1", 15000, {
     ip: "PANEL-IP",
@@ -28,7 +28,7 @@ const Daemon1 = new NodeStatus.Daemon("Node1", 15000, {
 
 ### Panel:
 ```javascript
-const NodeStatus = require('node-status');
+const NodeStatus = require('nodestatus');
 
 const Panel = new NodeStatus.Panel(4000, {
     token: "BOT-TOKEN",
