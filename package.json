@@ -1,13 +1,18 @@
 {
   "name": "bluefox-status",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A npm package meant for tracking your nodes",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlaringPhoenix/Node-Status.git"
+  },
   "scripts": {
     "test": "node ./tests"
   },
-  "author": "FlaringPhoenix",
+  "author": "FlaringPhoenix <flaringphoenix@bluefoxhost.com>",
   "license": "MIT",
+  "homepage": "https://github.com/FlaringPhoenix/Node-Status#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
