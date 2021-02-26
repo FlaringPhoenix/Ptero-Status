@@ -1,4 +1,4 @@
-# Nde-Status
+# Node-Status
 
 Node-Status is an easy to setup pterodactyl daemon status project. It will continuously update a discord embed with live stats from your daemons.
 
