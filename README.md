@@ -1,6 +1,6 @@
-# Node-Status
+# Ptero-Status
 
-Node-Status is an easy to setup pterodactyl daemon status project. It will continuously update a discord embed with live stats from your daemons.
+Ptero-Status is an easy to setup [pterodactyl](https://github.com/pterodactyl/panel) daemon status project. It will continuously update a discord embed with live stats from your daemons.
 
 ## Preview
 
@@ -11,16 +11,16 @@ Node-Status is an easy to setup pterodactyl daemon status project. It will conti
 Run the following command to install the npm package
 
 ```bash
-npm i node-status
+npm i ptero-status
 ```
 
 ## Usage
 
 ### Node:
 ```javascript
-const NodeStatus = require('nodestatus');
+const Status = require('ptero-status');
 
-const Daemon1 = new NodeStatus.Daemon("Node1", 15000, {
+const Daemon = new Status.Daemon("Node1", 15000, {
     ip: "PANEL-IP",
     port: "PANEL-PORT"
 });
@@ -28,9 +28,9 @@ const Daemon1 = new NodeStatus.Daemon("Node1", 15000, {
 
 ### Panel:
 ```javascript
-const NodeStatus = require('nodestatus');
+const Status = require('ptero-status');
 
-const Panel = new NodeStatus.Panel(4000, {
+const Panel = new Status.Panel(4000, {
     token: "BOT-TOKEN",
     guildID: 'GUILD-ID',
     channelID: 'CHANNEL-ID',

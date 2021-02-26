@@ -1,18 +1,18 @@
 {
-  "name": "nodestatus",
-  "version": "1.0.1",
+  "name": "pterostatus",
+  "version": "1.0.2",
   "description": "A npm package meant for tracking your nodes",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FlaringPhoenix/NodeStatus.git"
+    "url": "git+https://github.com/FlaringPhoenix/Ptero-Status.git"
   },
   "scripts": {
     "test": "node ./tests"
   },
   "author": "FlaringPhoenix <flaringphoenix@bluefoxhost.com>",
   "license": "MIT",
-  "homepage": "https://github.com/FlaringPhoenix/NodeStatus#readme",
+  "homepage": "https://github.com/FlaringPhoenix/Ptero-Status#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
