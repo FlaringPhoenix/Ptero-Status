@@ -1,6 +1,6 @@
-# BlueFox-Status
+# Nde-Status
 
-BlueFox Status is an easy to setup pterodactyl daemon status project. It will continuously update a discord embed with live stats from your daemons.
+Node-Status is an easy to setup pterodactyl daemon status project. It will continuously update a discord embed with live stats from your daemons.
 
 ## Preview
 
@@ -11,14 +11,14 @@ BlueFox Status is an easy to setup pterodactyl daemon status project. It will co
 Run the following command to install the npm package
 
 ```bash
-npm i bluefox-status
+npm i node-status
 ```
 
 ## Usage
 
 ### Node:
 ```javascript
-const NodeStatus = require('bluefox-status');
+const NodeStatus = require('node-status');
 
 const Daemon1 = new NodeStatus.Daemon("Node1", 15000, {
     ip: "PANEL-IP",
@@ -28,7 +28,7 @@ const Daemon1 = new NodeStatus.Daemon("Node1", 15000, {
 
 ### Panel:
 ```javascript
-const NodeStatus = require('bluefox-status');
+const NodeStatus = require('node-status');
 
 const Panel = new NodeStatus.Panel(4000, {
     token: "BOT-TOKEN",

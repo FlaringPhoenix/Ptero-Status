@@ -1,5 +1,5 @@
 {
-  "name": "bluefox-status",
+  "name": "node-status",
   "version": "1.0.1",
   "description": "A npm package meant for tracking your nodes",
   "main": "index.js",
