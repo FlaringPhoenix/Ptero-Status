@@ -18,6 +18,8 @@ TOTAL:
 USED:
 {memory.used} - Total memory used by nodes
 {disk.used} - Total disk used by nodes
+{memory.used%} - Total memory percentage used by nodes 
+{disk.used%} - Total disk percentage used by nodes
 
 PTERODACTYL:
 {pterodactyl.users} - Number of current panel users
@@ -36,7 +38,7 @@ const Controller = new Status.Controller(4000, {
     embed: {
         color: '#06cce2',
         title: 'Node Status [{nodes.total} nodes]',
-        description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}'
+        description: '__**Nodes**__:\n{nodes.list}\n\n__**Total**__:\nMemory: {memory.used}/{memory.total} ({memory.used%})\nDisk: {disk.used}/{disk.total} ({disk.used%})\n\n__**Pterodactyl:**__\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}'
     },
     interval: 15000
 });

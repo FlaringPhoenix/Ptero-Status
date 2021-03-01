@@ -94,7 +94,7 @@ class Panel {
 
         let nodesOnline = nodes.filter(n => n.online).length;
         let nodesOffline = nodes.filter(n => !n.online).length;
-        let nodesList = nodes.map(n => `**${n.nodeName}** ➤ ${n.online ? '🟢 **ONLINE**' : '🔴 **OFFLINE**'} [Memory: ${this.bytesToSize(n.stats.memory.used)}/${this.bytesToSize(n.stats.memory.total)}] [Disk: ${this.bytesToSize(n.stats.disk.used)}/${this.bytesToSize(n.stats.disk.total)}]`).join('\n');
+        let nodesList = nodes.map(n => `**${n.nodeName}** ➤ ${n.online ? '🟢 **ONLINE**' : '🔴 **OFFLINE**'} [Memory: ${this.bytesToSize(n.stats.memory.used)}GB/${this.bytesToSize(n.stats.memory.total)}GB] [Disk: ${this.bytesToSize(n.stats.disk.used)}GB/${this.bytesToSize(n.stats.disk.total)}GB]`).join('\n');
         let nodesTotal = nodes.length;
 
         let totalMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.total, 0));
@@ -112,12 +112,14 @@ class Panel {
                 .replace('{nodes.list}', nodesList)
                 .replace('{nodes.total}', nodesTotal)
 
-                .replace('{memory.total}', totalMemory)
-                .replace('{disk.total}', totalDisk)
+                .replace('{memory.total}', totalMemory + 'GB')
+                .replace('{disk.total}', totalDisk + 'GB')
                 .replace('{cores.total}', totalCores)
 
-                .replace('{memory.used}', usedMemory)
-                .replace('{disk.used}', usedDisk)
+                .replace('{memory.used}', usedMemory + 'GB')
+                .replace('{disk.used}', usedDisk + 'GB')
+                .replace('{memory.used%}', (usedMemory/totalMemory).toFixed(2)*100 + '%')
+                .replace('{disk.used%}', (usedDisk/totalDisk).toFixed(2)*100 + '%')
 
                 .replace('{pterodactyl.users}', that.pterodactyl.getUserCount())
                 .replace('{pterodactyl.servers}', that.pterodactyl.getServerCount())
@@ -126,8 +128,8 @@ class Panel {
         this.editEmbed(
             this.channel,
             this.message,
-            parse(this.title),
-            parse(this.description)
+            parse(this.title).substr(0, 256),
+            parse(this.description).substr(0, 2048)
         )
     }
 
@@ -152,7 +154,7 @@ class Panel {
 
     bytesToSize(bytes) {
         let GB = bytes/1024/1024/1024;
-        return `${GB.toFixed(2)}GB`;
+        return GB.toFixed(2);
     }
 
     log(message) {

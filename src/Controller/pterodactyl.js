@@ -33,10 +33,12 @@ class Pterodactyl {
             });
             let total = res['data']['meta']['pagination']['total'];
             this.serverCount = total;
+            this.log('Updated pterodactyl server count!');
             return total;
         } catch(e) {
             console.error(e);
-            return this.log('Could not fetch server count!');
+            this.log('Could not fetch pterodactyl server count!');
+            return;
         }
     }
 
@@ -49,10 +51,12 @@ class Pterodactyl {
             });
             let total = res['data']['meta']['pagination']['total'];
             this.userCount = total;
+            this.log('Updated pterodactyl user count!');
             return total;
         } catch(e) {
             console.error(e);
-            return this.log('Could not fetch user count!');
+            this.log('Could not fetch pterodactyl user count!');
+            return;
         }
     }
 

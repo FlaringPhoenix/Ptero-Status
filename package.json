@@ -1,6 +1,6 @@
 {
   "name": "pterostatus",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A npm package meant for tracking your nodes",
   "main": "index.js",
   "repository": {
