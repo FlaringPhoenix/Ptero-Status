@@ -42,7 +42,7 @@ class Daemon {
 
     postStats() {
         let that = this;
-        axios.post(`http://${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, Cache.get('stats')).catch((e) => {
+        axios.post(`https://${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, Cache.get('stats')).catch((e) => {
             that.log("Failed to post the stats");
         });
     }
