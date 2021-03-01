@@ -30,11 +30,20 @@ const Daemon = new Status.Daemon("Node1", 15000, {
 ```javascript
 const Status = require('pterostatus');
 
-const Panel = new Status.Panel(4000, {
-    token: "BOT-TOKEN",
+const Controller = new Status.Controller(4000, {
+    token: "BOT-TOKEN,
     guildID: 'GUILD-ID',
     channelID: 'CHANNEL-ID',
     color: '#06cce2', // Embed color
+    pterodactyl: {
+        panel: "https://panel.domain.com",
+        apiKey: "API-KEY",
+    },
+    embed: {
+        color: '#06cce2',
+        title: 'Node Status [{nodes.total} nodes]',
+        description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}'
+    },
     interval: 15000
 });
 ```

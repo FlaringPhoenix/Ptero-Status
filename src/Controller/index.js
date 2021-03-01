@@ -2,10 +2,10 @@ const express = require("express");
 const chalk = require("chalk");
 const Cache = require('memory-cache');
 const Discord = require('discord.js');
+const Pterodactyl = require("./pterodactyl");
 
 class Panel {
     constructor(port = 4000, options = {}) {
-
         // Node cache
         Cache.put('nodes', []);
 
@@ -14,10 +14,19 @@ class Panel {
         if (options['guildID']) this.guildID = options['guildID'];
         if (options['channelID']) this.channelID = options['channelID'];
         if (options['interval']) this.interval = options['interval'] || 30000;
-        if (options['color']) this.color = options['color'] || '#06cce2'
+        if (options['embed']) this.embed = options['embed'];
+        this.color = this.embed['color'] || '#06cce2';
+        this.title = this.embed['title'] || "Node Status [{nodes.total}]";
+        this.description = this.embed['description'] || "**Nodes**:\n{nodes.list}";
+        if (options['pterodactyl']) this.ptero = options['pterodactyl'];
+        this.panel = this.ptero['panel'] || null;
+        this.apiKey = this.ptero['apiKey'] || null;
 
         // Start bot
         this.startBot();
+
+        // Start pterodactyl
+        this.startPterodactyl();
 
         // Setup express
         this.app = express();
@@ -60,7 +69,14 @@ class Panel {
             that.log('Updating embed! Next update: ' + interval/1000 + ' seconds');
             that.updateEmbed();
         }, interval);
+    }
 
+    startPterodactyl(panel = this.panel, apiKey = this.apiKey, interval = this.interval) {
+        if (!panel) return this.log("Missing pterodactyl panel url");
+        if (!apiKey) return this.log("Missing pterodactyl panel application api key");
+    
+        this.pterodactyl = new Pterodactyl(panel, apiKey, interval);
+        this.pterodactyl.init();
     }
 
     async updateEmbed() {
@@ -74,25 +90,44 @@ class Panel {
         }
 
         let nodes = Cache.get('nodes');
+        nodes.map((n, i) => nodes[i]['online'] = (Date.now() - n.lastUpdated) < n.cacheInterval * 2);
 
-        nodes.map((n, i) => {
-            nodes[i]['online'] = (Date.now() - n.lastUpdated) < n.cacheInterval * 2 
-        })
+        let nodesOnline = nodes.filter(n => n.online).length;
+        let nodesOffline = nodes.filter(n => !n.online).length;
+        let nodesList = nodes.map(n => `**${n.nodeName}** ➤ ${n.online ? '🟢 **ONLINE**' : '🔴 **OFFLINE**'} [Memory: ${this.bytesToSize(n.stats.memory.used)}/${this.bytesToSize(n.stats.memory.total)}] [Disk: ${this.bytesToSize(n.stats.disk.used)}/${this.bytesToSize(n.stats.disk.total)}]`).join('\n');
+        let nodesTotal = nodes.length;
+
+        let totalMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.total, 0));
+        let totalDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.total, 0));
+        let totalCores = nodes.reduce((acc, node) => acc + node.stats.cpu.cores, 0);
+
+        let usedMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.used, 0));
+        let usedDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.used, 0));
+
+        let that = this;
+        function parse(text = "") {
+            return text
+                .replace('{nodes.online}', nodesOnline)
+                .replace('{nodes.offline}', nodesOffline)
+                .replace('{nodes.list}', nodesList)
+                .replace('{nodes.total}', nodesTotal)
+
+                .replace('{memory.total}', totalMemory)
+                .replace('{disk.total}', totalDisk)
+                .replace('{cores.total}', totalCores)
+
+                .replace('{memory.used}', usedMemory)
+                .replace('{disk.used}', usedDisk)
+
+                .replace('{pterodactyl.users}', that.pterodactyl.getUserCount())
+                .replace('{pterodactyl.servers}', that.pterodactyl.getServerCount())
+        }
 
         this.editEmbed(
             this.channel,
             this.message,
-            `Node Stats [${nodes.length} nodes]`,
-`__**Nodes**__:
-${nodes.map(n => `**${n.nodeName}** ➤ ${n.online ? '🟢 **ONLINE**' : '🔴 **OFFLINE**'} [Memory: ${this.bytesToSize(n.stats.memory.used)}/${this.bytesToSize(n.stats.memory.total)}] [Disk: ${this.bytesToSize(n.stats.disk.used)}/${this.bytesToSize(n.stats.disk.total)}]`).join('\n')}
-
-__**Overall**__:
-Online: ${nodes.filter(n => n.online).length}
-Offline: ${nodes.filter(n => !n.online).length}
-Memory: ${this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.used, 0))}/${this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.total, 0))}
-Disk: ${this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.used, 0))}/${this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.total, 0))}
-Cores: ${nodes.reduce((acc, node) => acc + node.stats.cpu.cores, 0)}
-`,
+            parse(this.title),
+            parse(this.description)
         )
     }
 
