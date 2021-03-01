@@ -21,8 +21,8 @@ npm i pterostatus
 const Status = require('pterostatus');
 
 const Daemon = new Status.Daemon("Node1", 15000, {
-    ip: "PANEL-IP",
-    port: "PANEL-PORT"
+    ip: "CONTROLLER-IP",
+    port: "CONTROLLER-PORT"
 });
 ```
 
@@ -31,7 +31,7 @@ const Daemon = new Status.Daemon("Node1", 15000, {
 const Status = require('pterostatus');
 
 const Controller = new Status.Controller(4000, {
-    token: "BOT-TOKEN,
+    token: "BOT-TOKEN",
     guildID: 'GUILD-ID',
     channelID: 'CHANNEL-ID',
     color: '#06cce2', // Embed color
