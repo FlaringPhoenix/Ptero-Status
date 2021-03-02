@@ -107,6 +107,7 @@ class Panel {
                 .replace('{node.disk.used}', `${this.bytesToSize(n.stats.disk.used)}GB`)
                 .replace('{node.disk.total}', `${this.bytesToSize(n.stats.disk.total)}GB`)
                 .replace('{node.cpu.used}', `${(n.stats.cl.currentLoad).toFixed(2) || "unknown"}%`)
+                .replace('{node.cpu.cores}', n.stats.cpu.cores)
                 .replace('{node.cpu}', `${n.stats.cpu.manufacturer || ""} ${n.stats.cpu.brand || ""}`)
                 .replace('{node.os}', n.stats.os.platform || "unknown")
                 .replace('{node.cpu.bios}', n.stats.bios.vendor);

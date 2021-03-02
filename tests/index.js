@@ -11,6 +11,7 @@ NODE:
 {node.disk.used} - Total used disk
 {node.disk.total} - Total node's disk
 {node.cpu.used} - Total used cpu
+{node.cpu.cores} - Total cpu cores
 {node.cpu} - Displays the cpu model
 {node.os} - Displays the os
 {node.cpu.bios} - Displays the bios vender
@@ -47,7 +48,7 @@ const Controller = new Status.Controller(4000, {
         apiKey: process.env.apiKey,
     },
     node: {
-        message: '**{node.name}**\n\`\`\`Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used}\`\`\`',
+        message: '**{node.name}**\n```Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used} ({node.cpu.cores} cores)```',
         online: '🟢 **ONLINE**',
         offline: '🔴 **OFFLINE**'
     },
