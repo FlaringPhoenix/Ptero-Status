@@ -15,6 +15,7 @@ NODE:
 {node.cpu} - Displays the cpu model
 {node.os} - Displays the os
 {node.cpu.bios} - Displays the bios vender
+{node.status} - Shows if it's online or offline
 
 NODES:
 {nodes.online} - Number of online nodes
@@ -48,7 +49,7 @@ const Controller = new Status.Controller(4000, {
         apiKey: process.env.apiKey,
     },
     node: {
-        message: '**{node.name}**\n```Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used} ({node.cpu.cores} cores)```',
+        message: '**{node.name}** {node.status}\n```Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used} ({node.cpu.cores} cores)```',
         online: '🟢 **ONLINE**',
         offline: '🔴 **OFFLINE**'
     },

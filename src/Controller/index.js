@@ -19,7 +19,7 @@ class Panel {
         this.offline = this.node['offline'] || '🔴 **OFFLINE**';
         this.nodeMessage = this.node['message'] || '__**{node.name}**__: [Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]';
         if (options['embed']) this.embed = options['embed'];
-        this.color = this.embed['color'] || '#06cce2';
+        this.color = this.embed['color'];
         this.title = this.embed['title'] || "Node Status [{nodes.total}]";
         this.description = this.embed['description'] || "**Nodes**:\n{nodes.list}";
         if (options['pterodactyl']) this.ptero = options['pterodactyl'];
@@ -110,7 +110,8 @@ class Panel {
                 .replace('{node.cpu.cores}', n.stats.cpu.cores)
                 .replace('{node.cpu}', `${n.stats.cpu.manufacturer || ""} ${n.stats.cpu.brand || ""}`)
                 .replace('{node.os}', n.stats.os.platform || "unknown")
-                .replace('{node.cpu.bios}', n.stats.bios.vendor);
+                .replace('{node.cpu.bios}', n.stats.bios.vendor)
+                .replace('{node.status}', n.online ? this.online : this.offline);
             
         }).join('\n');
         
@@ -148,7 +149,7 @@ class Panel {
             this.channel,
             this.message,
             parse(this.title).substr(0, 256),
-            parse(this.description).substr(0, 2048)
+            parse(this.description).substr(0, 2048),
         )
     }
 
