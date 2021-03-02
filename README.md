@@ -48,6 +48,9 @@ const Controller = new Status.Controller(4000, {
 });
 ```
 
+## Existing Example
+See Pterostatus working in a live environment in the #server-status channel of [this Discord server](https://discord.gg/XstuVD8JmT)
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
