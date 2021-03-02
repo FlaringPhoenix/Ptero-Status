@@ -1,8 +1,8 @@
-const express = require("express");
-const chalk = require("chalk");
+const express = require('express');
+const chalk = require('chalk');
 const Cache = require('memory-cache');
 const Discord = require('discord.js');
-const Pterodactyl = require("./pterodactyl");
+const Pterodactyl = require('./pterodactyl');
 
 class Panel {
     constructor(port = 4000, options = {}) {
@@ -16,8 +16,8 @@ class Panel {
         if (options['interval']) this.interval = options['interval'] || 30000;
         if (options['embed']) this.embed = options['embed'];
         this.color = this.embed['color'] || '#06cce2';
-        this.title = this.embed['title'] || "Node Status [{nodes.total}]";
-        this.description = this.embed['description'] || "**Nodes**:\n{nodes.list}";
+        this.title = this.embed['title'] || 'Node Status [{nodes.total}]';
+        this.description = this.embed['description'] || '**Nodes**:\n{nodes.list}';
         if (options['pterodactyl']) this.ptero = options['pterodactyl'];
         this.panel = this.ptero['panel'] || null;
         this.apiKey = this.ptero['apiKey'] || null;
@@ -49,11 +49,11 @@ class Panel {
         });
 
         // Load routes
-        this.app.use("/", require("./routes"));
+        this.app.use('/', require('./routes'));
         
         // Listen on the given port
         this.app.listen(port);
-        this.log("Listening on port: " + port);
+        this.log(`Listening on port: ${port}`);
     }
 
     startBot(token = this.token, interval = this.interval) {
@@ -66,14 +66,14 @@ class Panel {
         }
         let that = this;
         setInterval(() => {
-            that.log('Updating embed! Next update: ' + interval/1000 + ' seconds');
+            that.log(`Updating embed! Next update: ${interval/1000} seconds`);
             that.updateEmbed();
         }, interval);
     }
 
     startPterodactyl(panel = this.panel, apiKey = this.apiKey, interval = this.interval) {
-        if (!panel) return this.log("Missing pterodactyl panel url");
-        if (!apiKey) return this.log("Missing pterodactyl panel application api key");
+        if (!panel) return this.log('Missing pterodactyl panel url');
+        if (!apiKey) return this.log('Missing pterodactyl panel application api key');
     
         this.pterodactyl = new Pterodactyl(panel, apiKey, interval);
         this.pterodactyl.init();
@@ -85,7 +85,7 @@ class Panel {
         if (this.message == undefined) {
             let messages = await this.channel.messages.fetch({ limit: 10 });
             let lastMessage = (messages.filter(m => m.author.id == this.client.user.id)).first();
-            if (!lastMessage) lastMessage = await this.channel.send(new Discord.MessageEmbed().setTitle("Starting!").setColor(this.color));
+            if (!lastMessage) lastMessage = await this.channel.send(new Discord.MessageEmbed().setTitle('Starting!').setColor(this.color));
             this.message = lastMessage;
         }
 
@@ -158,7 +158,7 @@ class Panel {
     }
 
     log(message) {
-        console.log(`${chalk.blue("[PANEL]")}${chalk.gray(":")} ${chalk.yellow(message)}`);
+        console.log(`${chalk.blue('[PANEL]')}${chalk.gray(':')} ${chalk.yellow(message)}`);
     }
 
 }
