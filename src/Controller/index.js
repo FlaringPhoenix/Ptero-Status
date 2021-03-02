@@ -14,6 +14,10 @@ class Panel {
         if (options['guildID']) this.guildID = options['guildID'];
         if (options['channelID']) this.channelID = options['channelID'];
         if (options['interval']) this.interval = options['interval'] || 30000;
+        if (options['node']) this.node = options['node'];
+        this.online = this.node['online'] || '🟢 **ONLINE**';
+        this.offline = this.node['offline'] || '🔴 **OFFLINE**';
+        this.nodeMessage = this.node['message'] || '__**{node.name}**__: [Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]';
         if (options['embed']) this.embed = options['embed'];
         this.color = this.embed['color'] || '#06cce2';
         this.title = this.embed['title'] || "Node Status [{nodes.total}]";
@@ -94,8 +98,22 @@ class Panel {
 
         let nodesOnline = nodes.filter(n => n.online).length;
         let nodesOffline = nodes.filter(n => !n.online).length;
-        let nodesList = nodes.map(n => `**${n.nodeName}** ➤ ${n.online ? '🟢 **ONLINE**' : '🔴 **OFFLINE**'} [Memory: ${this.bytesToSize(n.stats.memory.used)}GB/${this.bytesToSize(n.stats.memory.total)}GB] [Disk: ${this.bytesToSize(n.stats.disk.used)}GB/${this.bytesToSize(n.stats.disk.total)}GB]`).join('\n');
-        let nodesTotal = nodes.length;
+        let nodesList = nodes.map(n => {
+
+            return this.nodeMessage
+                .replace('{node.name}', n.nodeName)
+                .replace('{node.memory.used}', `${this.bytesToSize(n.stats.memory.used)}GB`)
+                .replace('{node.memory.total}', `${this.bytesToSize(n.stats.memory.total)}GB`)
+                .replace('{node.disk.used}', `${this.bytesToSize(n.stats.disk.used)}GB`)
+                .replace('{node.disk.total}', `${this.bytesToSize(n.stats.disk.total)}GB`)
+                .replace('{node.cpu.used}', `${(n.stats.cl.currentLoad).toFixed(2) || "unknown"}%`)
+                .replace('{node.cpu}', `${n.stats.cpu.manufacturer || ""} ${n.stats.cpu.brand || ""}`)
+                .replace('{node.os}', n.stats.os.platform || "unknown")
+                .replace('{node.cpu.bios}', n.stats.bios.vendor);
+            
+        }).join('\n');
+        
+            let nodesTotal = nodes.length;
 
         let totalMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.total, 0));
         let totalDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.total, 0));
@@ -122,7 +140,7 @@ class Panel {
                 .replace('{disk.used%}', (usedDisk/totalDisk).toFixed(2)*100 + '%')
 
                 .replace('{pterodactyl.users}', that.pterodactyl.getUserCount())
-                .replace('{pterodactyl.servers}', that.pterodactyl.getServerCount())
+                .replace('{pterodactyl.servers}', that.pterodactyl.getServerCount());
         }
 
         this.editEmbed(

@@ -4,6 +4,17 @@ require('dotenv').config();
 /*
 Embed Placeholders:
 
+NODE:
+{node.name} - Node's name
+{node.memory.used} - Total node's memory
+{node.memory.total} - Total used memory
+{node.disk.used} - Total used disk
+{node.disk.total} - Total node's disk
+{node.cpu.used} - Total used cpu
+{node.cpu} - Displays the cpu model
+{node.os} - Displays the os
+{node.cpu.bios} - Displays the bios vender
+
 NODES:
 {nodes.online} - Number of online nodes
 {nodes.offline} - Number of offline nodes
@@ -29,11 +40,16 @@ PTERODACTYL:
 const Controller = new Status.Controller(4000, {
     token: process.env.token,
     guildID: '704423873415741510',
-    channelID: '815707495880065064',
+    channelID: '816336490359160832',
     color: '#06cce2', // Embed color
     pterodactyl: {
         panel: "https://panel.bluefoxhost.com",
         apiKey: process.env.apiKey,
+    },
+    node: {
+        message: '**{node.name}**\n\`\`\`Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used}\`\`\`',
+        online: '🟢 **ONLINE**',
+        offline: '🔴 **OFFLINE**'
     },
     embed: {
         color: '#06cce2',
