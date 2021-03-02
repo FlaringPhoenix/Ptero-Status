@@ -61,5 +61,6 @@ const Controller = new Status.Controller(4000, {
 
 const Daemon = new Status.Daemon("Node1", 15000, {
     ip: "0.0.0.0",
-    port: "4000"
+    port: "4000",
+    secure: false, // SSL
 });
