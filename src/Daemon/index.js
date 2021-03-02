@@ -1,14 +1,14 @@
-const chalk = require("chalk");
+const chalk = require('chalk');
 const si = require('systeminformation');
 const Cache = require('memory-cache');
-const { default: axios } = require("axios");
+const { default: axios } = require('axios');
 
 class Daemon {
     constructor(name, cache = 30000, options = {}) {
         if (!name) return new Error('Missing name');
         this.name = name;
 
-        if (cache < 15000) this.log("We don't recommend having the cache lower than 15000ms");
+        if (cache < 15000) this.log('We don't recommend having the cache lower than 15000ms');
         this.cache = cache;
 
         if (!options['ip']) return new Error('Missing panel ip address');
@@ -18,23 +18,23 @@ class Daemon {
             port: options['port']
         };
 
-        this.log("Started!");
+        this.log('Started!');
         this.initCache();
     }
 
     log(message) {
-        console.log(`${chalk.blue("[DAEMON]")}${chalk.gray(":")} ${chalk.yellow(message)}`);
+        console.log(`${chalk.blue('[DAEMON]')}${chalk.gray(':')} ${chalk.yellow(message)}`);
     }
 
     async initCache() {
         let that = this;
         let stats = await this.stats();
-        this.log("Posted stats");
+        this.log('Posted stats');
         Cache.put('stats', stats);
         this.postStats();
         setInterval(async function() {
             let stats = await that.stats();
-            that.log("Posted stats");
+            that.log('Posted stats');
             Cache.put('stats', stats);
             that.postStats();
         }, this.cache);
@@ -43,7 +43,7 @@ class Daemon {
     postStats() {
         let that = this;
         axios.post(`https://${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, Cache.get('stats')).catch((e) => {
-            that.log("Failed to post the stats");
+            that.log('Failed to post the stats');
         });
     }
 
