@@ -39,6 +39,11 @@ const Controller = new Status.Controller(4000, {
         panel: 'https://panel.domain.com',
         apiKey: 'API-KEY',
     },
+    node: {
+        message: '[Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
+        online: '🟢 **ONLINE**',
+        offline: '🔴 **OFFLINE**'
+    },
     embed: {
         color: '#06cce2',
         title: 'Node Status [{nodes.total} nodes]',

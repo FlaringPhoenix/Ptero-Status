@@ -4,6 +4,19 @@ require('dotenv').config();
 /*
 Embed Placeholders:
 
+NODE:
+{node.name} - Node's name
+{node.memory.used} - Total node's memory
+{node.memory.total} - Total used memory
+{node.disk.used} - Total used disk
+{node.disk.total} - Total node's disk
+{node.cpu.used} - Total used cpu
+{node.cpu.cores} - Total cpu cores
+{node.cpu} - Displays the cpu model
+{node.os} - Displays the os
+{node.cpu.bios} - Displays the bios vender
+{node.status} - Shows if it's online or offline
+
 NODES:
 {nodes.online} - Number of online nodes
 {nodes.offline} - Number of offline nodes
@@ -29,11 +42,16 @@ PTERODACTYL:
 const Controller = new Status.Controller(4000, {
     token: process.env.token,
     guildID: '704423873415741510',
-    channelID: '815707495880065064',
+    channelID: '816336490359160832',
     color: '#06cce2', // Embed color
     pterodactyl: {
         panel: 'https://panel.bluefoxhost.com',
         apiKey: process.env.apiKey,
+    },
+    node: {
+        message: '**{node.name}** {node.status}\n```Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used} ({node.cpu.cores} cores)```',
+        online: '🟢 **ONLINE**',
+        offline: '🔴 **OFFLINE**'
     },
     embed: {
         color: '#06cce2',
@@ -43,7 +61,8 @@ const Controller = new Status.Controller(4000, {
     interval: 15000
 });
 
-const Daemon = new Status.Daemon('Node1', 15000, {
+const Daemon = new Status.Daemon("Node1", 15000, {
     ip: '0.0.0.0',
-    port: '4000'
+    port: '4000',
+    secure: false, // SSL
 });

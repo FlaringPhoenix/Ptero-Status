@@ -15,7 +15,8 @@ class Daemon {
         if (!options['port']) return new Error('Missing panel port');
         this.panel = {
             ip: options['ip'],
-            port: options['port']
+            port: options['port'],
+            secure: options['secure'] || false,
         };
 
         this.log('Started!');
@@ -39,10 +40,10 @@ class Daemon {
             that.postStats();
         }, this.cache);
     }
-
+  
     postStats() {
-        let that = this;
-        axios.post(`https://${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, Cache.get('stats')).catch((e) => {
+        let that = this.panel.secure ? 'https://' : 'http://';
+        axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, Cache.get('stats')).catch((e) => {
             that.log('Failed to post the stats');
         });
     }
