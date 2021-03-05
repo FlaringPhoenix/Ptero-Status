@@ -20,9 +20,9 @@ npm i pterostatus
 ```javascript
 const Status = require('pterostatus');
 
-const Daemon = new Status.Daemon("Node1", 15000, {
-    ip: "CONTROLLER-IP",
-    port: "CONTROLLER-PORT"
+const Daemon = new Status.Daemon('Node1', 15000, {
+    ip: 'CONTROLLER-IP',
+    port: 'CONTROLLER-PORT'
 });
 ```
 
@@ -31,13 +31,13 @@ const Daemon = new Status.Daemon("Node1", 15000, {
 const Status = require('pterostatus');
 
 const Controller = new Status.Controller(4000, {
-    token: "BOT-TOKEN",
+    token: 'BOT-TOKEN',
     guildID: 'GUILD-ID',
     channelID: 'CHANNEL-ID',
     color: '#06cce2', // Embed color
     pterodactyl: {
-        panel: "https://panel.domain.com",
-        apiKey: "API-KEY",
+        panel: 'https://panel.domain.com',
+        apiKey: 'API-KEY',
     },
     node: {
         message: '[Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
@@ -52,6 +52,9 @@ const Controller = new Status.Controller(4000, {
     interval: 15000
 });
 ```
+
+## Existing Example
+See Pterostatus working in a live environment in the #server-status channel of [this Discord server](https://discord.gg/XstuVD8JmT)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

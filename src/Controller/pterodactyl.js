@@ -26,7 +26,7 @@ class Pterodactyl {
 
     async updateServerCount() {
         try {
-            let res = await axios.get(this.panel + '/api/application/servers', {
+            let res = await axios.get(`${this.panel}/api/application/servers`, {
                 headers: {
                     'authorization': 'Bearer ' + this.key
                 }
@@ -44,7 +44,7 @@ class Pterodactyl {
 
     async updateUserCount() {
         try {
-            let res = await axios.get(this.panel + '/api/application/users', {
+            let res = await axios.get(`${this.panel}/api/application/users`, {
                 headers: {
                     'authorization': 'Bearer ' + this.key
                 }
@@ -61,7 +61,7 @@ class Pterodactyl {
     }
 
     log(message) {
-        console.log(`${chalk.blue("[PANEL]")}${chalk.gray(":")} ${chalk.yellow(message)}`);
+        console.log(`${chalk.blue('[PANEL]')}${chalk.gray(':')} ${chalk.yellow(message)}`);
     }
 
 }

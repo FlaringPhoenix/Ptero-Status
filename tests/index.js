@@ -45,7 +45,7 @@ const Controller = new Status.Controller(4000, {
     channelID: '816336490359160832',
     color: '#06cce2', // Embed color
     pterodactyl: {
-        panel: "https://panel.bluefoxhost.com",
+        panel: 'https://panel.bluefoxhost.com',
         apiKey: process.env.apiKey,
     },
     node: {
@@ -62,7 +62,7 @@ const Controller = new Status.Controller(4000, {
 });
 
 const Daemon = new Status.Daemon("Node1", 15000, {
-    ip: "0.0.0.0",
-    port: "4000",
+    ip: '0.0.0.0',
+    port: '4000',
     secure: false, // SSL
 });

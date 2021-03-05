@@ -29,7 +29,7 @@ router.post('/:node', function(req, res, next) {
 router.get('/', function(req, res, next) {
 
     let nodes = Cache.get('nodes');
-    if (!nodes) return res.status(404).json({ error: "no nodes were found" });
+    if (!nodes) return res.status(404).json({ error: 'no nodes were found' });
 
     nodes.forEach((n, i) => {
         let difference = Date.now() - n.lastUpdated;
