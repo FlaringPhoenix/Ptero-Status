@@ -10,6 +10,7 @@
   "scripts": {
     "test": "node ./tests"
   },
+  "types": "./index.d.ts",
   "author": "FlaringPhoenix <flaringphoenix@bluefoxhost.com>",
   "license": "MIT",
   "homepage": "https://github.com/FlaringPhoenix/Ptero-Status#readme",
