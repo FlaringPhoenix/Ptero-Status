@@ -8,7 +8,7 @@ class Daemon {
         if (!name) return new Error('Missing name');
         this.name = name;
 
-        if (cache < 15000) this.log('We don't recommend having the cache lower than 15000ms');
+        if (cache < 15000) this.log('We don\'t recommend having the cache lower than 15000ms');
         this.cache = cache;
 
         if (!options['ip']) return new Error('Missing panel ip address');
