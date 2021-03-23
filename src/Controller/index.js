@@ -1,5 +1,6 @@
 const express = require("express");
 const chalk = require("chalk");
+const axios = require('axios');
 const Cache = require('memory-cache');
 const Discord = require('discord.js');
 const Pterodactyl = require("./pterodactyl");
@@ -14,18 +15,27 @@ class Panel {
         if (options['guildID']) this.guildID = options['guildID'];
         if (options['channelID']) this.channelID = options['channelID'];
         if (options['interval']) this.interval = options['interval'] || 30000;
+
         if (options['node']) this.node = options['node'];
         this.online = this.node['online'] || '🟢 **ONLINE**';
         this.offline = this.node['offline'] || '🔴 **OFFLINE**';
         this.nodeMessage = this.node['message'] || '__**{node.name}**__: [Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]';
+        
         if (options['embed']) this.embed = options['embed'];
         this.color = this.embed['color'];
         this.title = this.embed['title'] || "Node Status [{nodes.total}]";
-        this.description = this.embed['description'] || "**Nodes**:\n{nodes.list}";
+        this.description = this.embed['description'] || '**Nodes**:\n{nodes.list}';
+        this.footer = this.embed['footer'];
+        this.footerText = this.footer['text'] || 'Last updated: {lastupdated}';
+        this.footerIcon = this.footer['icon'] || '';
+        
         if (options['pterodactyl']) this.ptero = options['pterodactyl'];
         this.panel = this.ptero['panel'] || null;
         this.apiKey = this.ptero['apiKey'] || null;
 
+        // Start stats
+        this.startStats();
+        
         // Start bot
         this.startBot();
 
@@ -58,6 +68,29 @@ class Panel {
         // Listen on the given port
         this.app.listen(port);
         this.log("Listening on port: " + port);
+    }
+
+    startStats(interval = this.interval) {
+        var that = this;
+        setInterval(function() {
+            that.postStats();
+        }, interval);
+    }
+
+    async postStats() {
+        try {
+            await axios.post('https://api.bluefoxhost.com/v1/bluefox/projects/pterostatus/stats', {
+                guildID: this.guildID,
+                interval: this.interval,
+                nodes: this.nodes
+            });
+            this.log('Posted stats to BlueFox API!');
+            return;
+        } catch(e) {
+            console.error(e);
+            this.log('Could not post stats to BlueFox API!');
+            return;
+        }
     }
 
     startBot(token = this.token, interval = this.interval) {
@@ -114,8 +147,10 @@ class Panel {
                 .replace('{node.status}', n.online ? this.online : this.offline);
             
         }).join('\n');
+
+        this.nodes = nodes;
         
-            let nodesTotal = nodes.length;
+        let nodesTotal = nodes.length;
 
         let totalMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.total, 0));
         let totalDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.total, 0));
@@ -126,6 +161,7 @@ class Panel {
 
         let that = this;
         function parse(text = "") {
+            let date = new Date();
             return text
                 .replace('{nodes.online}', nodesOnline)
                 .replace('{nodes.offline}', nodesOffline)
@@ -142,7 +178,16 @@ class Panel {
                 .replace('{disk.used%}', (usedDisk/totalDisk).toFixed(2)*100 + '%')
 
                 .replace('{pterodactyl.users}', that.pterodactyl.getUserCount())
-                .replace('{pterodactyl.servers}', that.pterodactyl.getServerCount());
+                .replace('{pterodactyl.servers}', that.pterodactyl.getServerCount())
+                .replace('{pterodactyl.locations}', that.pterodactyl.getLocationCount())
+
+                .replace('{lastupdated}', '{lastupdated.hours}:{lastupdated.minutes} {lastupdated.month}/{lastupdated.date}/{lastupdated.year}')
+                .replace('{lastupdated.date}', date.getDate()+1)
+                .replace('{lastupdated.month}', date.getMonth())
+                .replace('{lastupdated.hours}', date.getHours())
+                .replace('{lastupdated.minutes}', date.getMinutes())
+                .replace('{lastupdated.seconds}', date.getSeconds() > 9 ? date.getSeconds() : 0 + date.getSeconds())
+                .replace('{lastupdated.year}', date.getFullYear());
         }
 
         this.editEmbed(
@@ -150,6 +195,8 @@ class Panel {
             this.message,
             parse(this.title).substr(0, 256),
             parse(this.description).substr(0, 2048),
+            [],
+            parse(this.footerText).substr(0, 2048)
         )
     }
 
@@ -162,7 +209,7 @@ class Panel {
                     fields: fields,
                     thumbnail: { url: thumbnail || "" },
                     color: color || this.color,
-                    footer: { text: footer || `Last Updated: ${new Date()}`}
+                    footer: { text: footer || this.footerText, icon_url: this.footerIcon }
                 }
             }).then(message => {
                 resolve(message);

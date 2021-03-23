@@ -6,7 +6,7 @@ PteroStatus is an easy to setup [pterodactyl](https://github.com/pterodactyl/pan
 
 ![Preview](https://i.gyazo.com/fe785175ce3e08ece87ab234df6993ed.png)
 
-## Installation
+# Installation
 
 Run the following command to install the npm package
 
@@ -52,6 +52,52 @@ const Controller = new Status.Controller(4000, {
     interval: 15000
 });
 ```
+
+
+### Placeholders:
+**NODE**:<br />
+`{node.name}` - Node's name<br />
+`{node.memory.used}` - Total node's memory<br />
+`{node.memory.total}` - Total used memory<br />
+`{node.disk.used}` - Total used disk<br />
+`{node.disk.total}` - Total node's disk<br />
+`{node.cpu.used}` - Total used cpu<br />
+`{node.cpu.cores}` - Total cpu cores<br />
+`{node.cpu}` - Displays the cpu model<br />
+`{node.os}` - Displays the os<br />
+`{node.cpu.bios}` - Displays the bios vender<br />
+`{node.status}` - Shows if it's online or offline<br />
+
+**NODES**:<br />
+`{nodes.online}` - Number of online nodes<br />
+`{nodes.offline}` - Number of offline nodes<br />
+`{nodes.list}` - List of nodes along with their statuses<br />
+`{nodes.total}` - Number of total nodes<br />
+
+**TOTAL**:<br />
+`{memory.total}` - Total memory<br />
+`{disk.total}` - Total disk<br />
+`{cores.total}` - Total cores<br />
+
+**USED**:<br />
+`{memory.used}` - Total memory used by nodes<br />
+`{disk.used}` - Total disk used by nodes<br />
+`{memory.used%}` - Total memory percentage used by nodes<br />
+`{disk.used%}` - Total disk percentage used by nodes<br />
+
+**PTERODACTYL**:<br />
+`{pterodactyl.users}` - Number of current panel users<br />
+`{pterodactyl.servers}` - Number of current panel servers<br />
+`{pterodactyl.locations}` - Number of current panel locations<br />
+
+**DATES**:<br />
+`{lastupdated}` - Last updated time<br />
+`{lastupdated.date}` - Currently day of the month<br />
+`{lastupdated.month}` - Current month of the year<br />
+`{lastupdated.hours}` - Current hour of the day<br />
+`{lastupdated.minutes}` - Current minute of the hour<br />
+`{lastupdated.seconds}` - Current second of hour<br />
+`{lastupdated.year}` - Current year<br />
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

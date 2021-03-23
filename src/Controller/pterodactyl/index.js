@@ -17,11 +17,15 @@ class Pterodactyl {
     }
 
     getServerCount() {
-        return this.serverCount;
+        return this.serverCount || 0;
     }
 
     getUserCount() {
-        return this.userCount;
+        return this.userCount || 0;
+    }
+
+    getLocationCount() {
+        return this.locationCount || 0;
     }
 
     async updateServerCount() {
@@ -56,6 +60,24 @@ class Pterodactyl {
         } catch(e) {
             console.error(e);
             this.log('Could not fetch pterodactyl user count!');
+            return;
+        }
+    }
+
+    async updateLocationCount() {
+        try {
+            let res = await axios.get(this.panel + '/api/application/locations', {
+                headers: {
+                    'authorization': 'Bearer ' + this.key
+                }
+            });
+            let total = res['data']['meta']['pagination']['total'];
+            this.locationCount = total;
+            this.log('Updated pterodactyl location count!');
+            return total;
+        } catch(e) {
+            console.error(e);
+            this.log('Could not fetch pterodactyl location count!');
             return;
         }
     }
