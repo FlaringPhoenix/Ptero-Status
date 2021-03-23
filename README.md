@@ -48,6 +48,10 @@ const Controller = new Status.Controller(4000, {
         color: '#06cce2',
         title: 'Node Status [{nodes.total} nodes]',
         description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}'
+        footer: {
+            text: 'Last updated: {lastupdated}',
+            icon: 'https://i.imgur.com/9b1qwml.jpg'
+        }
     },
     interval: 15000
 });
