@@ -40,14 +40,14 @@ const Controller = new Status.Controller(4000, {
         apiKey: "API-KEY",
     },
     node: {
-        message: '[Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
+        message: '**{node.name}**: [Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
         online: '🟢 **ONLINE**',
         offline: '🔴 **OFFLINE**'
     },
     embed: {
         color: '#06cce2',
         title: 'Node Status [{nodes.total} nodes]',
-        description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}'
+        description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}',
         footer: {
             text: 'Last updated: {lastupdated}',
             icon: 'https://i.imgur.com/9b1qwml.jpg'
@@ -69,7 +69,6 @@ const Controller = new Status.Controller(4000, {
 `{node.cpu.cores}` - Total cpu cores<br />
 `{node.cpu}` - Displays the cpu model<br />
 `{node.os}` - Displays the os<br />
-`{node.cpu.bios}` - Displays the bios vender<br />
 `{node.status}` - Shows if it's online or offline<br />
 
 **NODES**:<br />

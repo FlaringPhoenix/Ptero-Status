@@ -20,43 +20,37 @@ class Daemon {
         };
 
         this.log("Started!");
-        this.initCache();
+        this.autoPost();
     }
 
     log(message) {
         console.log(`${chalk.blue("[DAEMON]")}${chalk.gray(":")} ${chalk.yellow(message)}`);
     }
 
-    async initCache() {
+    async autoPost() {
         let that = this;
-        let stats = await this.stats();
-        this.log("Posted stats");
-        Cache.put('stats', stats);
-        this.postStats();
         setInterval(async function() {
-            let stats = await that.stats();
-            that.log("Posted stats");
-            Cache.put('stats', stats);
-            that.postStats();
+            await that.post(await that.stats());
         }, this.cache);
     }
 
-    postStats() {
-        let that = this;
+    async post(stats) {
         let scheme = this.panel.secure ? 'https://' : 'http://';
-        axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, Cache.get('stats')).catch((e) => {
-            that.log("Failed to post the stats");
-        });
+        try {
+            await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, stats);
+            Cache.put('stats', stats);
+        } catch(e) {
+            return this.log("Failed to post stats");
+        }
+        return this.log("Posted stats!")
+
     }
 
     async stats() {
         let memory = await si.mem();
         let disk = await si.fsSize();
         let cpu = await si.cpu();
-        let network = await si.networkStats();
         let os = await si.osInfo();
-        let bios = await si.bios();
-        let docker = await si.dockerInfo();
         let cl =  await si.currentLoad();
         return {
             nodeName: this.name,
@@ -74,15 +68,8 @@ class Daemon {
                     free: disk.reduce((last, current) => last.available + current.available, 0) || disk[0].available
                 },
                 cpu,
-                network,
                 os,
-                bios,
-                docker: {
-                    running: docker.running,
-                    paused: docker.paused,
-                    stopped: docker.stopped,
-                },
-                cl,
+                cl: cl['currentLoad'],
             }
         }
     }

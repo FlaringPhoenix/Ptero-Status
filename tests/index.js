@@ -14,7 +14,6 @@ NODE:
 {node.cpu.cores} - Total cpu cores
 {node.cpu} - Displays the cpu model
 {node.os} - Displays the os
-{node.cpu.bios} - Displays the bios vender
 {node.status} - Shows if it's online or offline
 
 NODES:
