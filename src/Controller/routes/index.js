@@ -7,6 +7,6 @@ const apiLimiter = rateLimit({
     max: 100 // Amount of requests
 });
 
-router.use('/v1', apiLimiter, require('./v1'));
+router.use('/stats', apiLimiter, require('./stats'));
 
 module.exports = router;

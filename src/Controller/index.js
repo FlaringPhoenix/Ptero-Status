@@ -135,14 +135,14 @@ class Panel {
 
             return this.nodeMessage
                 .replace('{node.name}', n.nodeName)
-                .replace('{node.memory.used}', `${this.bytesToSize(n.stats.memory.used)}GB`)
-                .replace('{node.memory.total}', `${this.bytesToSize(n.stats.memory.total)}GB`)
-                .replace('{node.disk.used}', `${this.bytesToSize(n.stats.disk.used)}GB`)
-                .replace('{node.disk.total}', `${this.bytesToSize(n.stats.disk.total)}GB`)
-                .replace('{node.cpu.used}', `${(n.stats.cl).toFixed(2) || "unknown"}%`)
-                .replace('{node.cpu.cores}', n.stats.cpu.cores)
-                .replace('{node.cpu}', `${n.stats.cpu.manufacturer || ""} ${n.stats.cpu.brand || ""}`)
-                .replace('{node.os}', n.stats.os.platform || "unknown")
+                .replace('{node.memory.used}', `${this.bytesToSize(n.memory.used)}GB`)
+                .replace('{node.memory.total}', `${this.bytesToSize(n.memory.total)}GB`)
+                .replace('{node.disk.used}', `${this.bytesToSize(n.disk.used)}GB`)
+                .replace('{node.disk.total}', `${this.bytesToSize(n.disk.total)}GB`)
+                .replace('{node.cpu.used}', `${(n.cl).toFixed(2) || "unknown"}%`)
+                .replace('{node.cpu.cores}', n.cpu.cores)
+                .replace('{node.cpu}', `${n.cpu.manufacturer || ""} ${n.cpu.brand || ""}`)
+                .replace('{node.os}', n.os.platform || "unknown")
                 .replace('{node.status}', n.online ? this.online : this.offline);
             
         }).join('\n');
@@ -151,12 +151,12 @@ class Panel {
         
         let nodesTotal = nodes.length;
 
-        let totalMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.total, 0));
-        let totalDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.total, 0));
-        let totalCores = nodes.reduce((acc, node) => acc + node.stats.cpu.cores, 0);
+        let totalMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.memory.total, 0));
+        let totalDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.disk.total, 0));
+        let totalCores = nodes.reduce((acc, node) => acc + node.cpu.cores, 0);
 
-        let usedMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.memory.used, 0));
-        let usedDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.stats.disk.used, 0));
+        let usedMemory = this.bytesToSize(nodes.reduce((acc, node) => acc + node.memory.used, 0));
+        let usedDisk = this.bytesToSize(nodes.reduce((acc, node) => acc + node.disk.used, 0));
 
         let that = this;
         function parse(text = "") {

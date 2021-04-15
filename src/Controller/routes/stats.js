@@ -33,7 +33,8 @@ router.get('/', function(req, res, next) {
 
     nodes.forEach((n, i) => {
         let difference = Date.now() - n.lastUpdated;
-        nodes[i]['online'] = difference > n.cacheInterval * 2; 
+        console.log(difference)
+        nodes[i]['online'] = difference < (n.cacheInterval * 2); 
     });
 
     return res.status(200).json(nodes);

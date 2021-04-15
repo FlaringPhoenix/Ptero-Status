@@ -37,7 +37,7 @@ class Daemon {
     async post(stats) {
         let scheme = this.panel.secure ? 'https://' : 'http://';
         try {
-            await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, stats);
+            await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/stats/${this.name}`, stats);
             Cache.set('stats', stats);
         } catch(e) {
             return this.log("Failed to post stats");
@@ -56,21 +56,19 @@ class Daemon {
             nodeName: this.name,
             lastUpdated: Date.now(),
             cacheInterval: this.cache,
-            stats: {
-                memory: {
-                    total: memory.total,
-                    used: memory.used,
-                    free: memory.free,
-                },
-                disk: {
-                    total: disk.reduce((last, current) => last.size + current.size, 0) || disk[0].size,
-                    used: disk.reduce((last, current) => last.used + current.used, 0) || disk[0].used,
-                    free: disk.reduce((last, current) => last.available + current.available, 0) || disk[0].available
-                },
-                cpu,
-                os,
-                cl: cl['currentLoad'],
-            }
+            memory: {
+                total: memory.total,
+                used: memory.used,
+                free: memory.free,
+            },
+            disk: {
+                total: disk.reduce((last, current) => last.size + current.size, 0) || disk[0].size,
+                used: disk.reduce((last, current) => last.used + current.used, 0) || disk[0].used,
+                free: disk.reduce((last, current) => last.available + current.available, 0) || disk[0].available
+            },
+            cpu,
+            os,
+            cl: cl['currentLoad'],
         }
     }
 
