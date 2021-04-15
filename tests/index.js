@@ -54,7 +54,7 @@ OTHER:
 const Controller = new Status.Controller(4000, {
     token: process.env.token,
     guildID: '704423873415741510',
-    channelID: '823610166317547520',
+    channelID: '832318915366879263',
     color: '#06cce2', // Embed color
     pterodactyl: {
         panel: "https://panel.bluefoxhost.com",

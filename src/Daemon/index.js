@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const si = require('systeminformation');
-const Cache = require('memory-cache');
+const Cache = require('liquidcache');
 const { default: axios } = require("axios");
 
 class Daemon {
@@ -38,7 +38,7 @@ class Daemon {
         let scheme = this.panel.secure ? 'https://' : 'http://';
         try {
             await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/v1/stats/${this.name}`, stats);
-            Cache.put('stats', stats);
+            Cache.set('stats', stats);
         } catch(e) {
             return this.log("Failed to post stats");
         }

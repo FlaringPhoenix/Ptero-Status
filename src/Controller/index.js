@@ -1,14 +1,14 @@
 const express = require("express");
 const chalk = require("chalk");
 const axios = require('axios');
-const Cache = require('memory-cache');
+const Cache = require('liquidcache');
 const Discord = require('discord.js');
 const Pterodactyl = require("./pterodactyl");
 
 class Panel {
     constructor(port = 4000, options = {}) {
         // Node cache
-        Cache.put('nodes', []);
+        Cache.set('nodes', []);
 
         // Options
         if (options['token']) this.token = options['token'];

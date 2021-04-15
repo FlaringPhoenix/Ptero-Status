@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Cache = require('memory-cache');
+const Cache = require('liquidcache');
 
 router.post('/:node', function(req, res, next) {
 
@@ -18,7 +18,7 @@ router.post('/:node', function(req, res, next) {
         nodes[existsIndex] = nodeData;
     }
 
-    Cache.put('nodes', nodes.sort(function(a, b) {
+    Cache.set('nodes', nodes.sort(function(a, b) {
         return a.nodeName.localeCompare(b.nodeName);
     }));
 
