@@ -16,7 +16,7 @@ class Daemon {
         this.panel = {
             ip: options['ip'],
             port: options['port'],
-            secure: options['secure'] || false,
+            secure: options['secure'] || true,
         };
 
         this.log("Started!");
@@ -37,7 +37,7 @@ class Daemon {
     async post(stats) {
         let scheme = this.panel.secure ? 'https://' : 'http://';
         try {
-            await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/stats/${this.name}`, stats);
+            await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/stats/${this.panel}`, stats);
             Cache.set('stats', stats);
         } catch(e) {
             return this.log("Failed to post stats");
