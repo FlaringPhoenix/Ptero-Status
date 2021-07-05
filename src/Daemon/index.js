@@ -11,9 +11,9 @@ class Daemon {
         if (cache < 15000) this.log("We don't recommend having the cache lower than 15000ms");
         this.cache = cache;
 
-        if (!options['ip']) return new Error('Missing panel ip address');
-        if (!options['port']) return new Error('Missing panel port');
-        this.panel = {
+        if (!options['ip']) return new Error('Missing controller ip address');
+        if (!options['port']) return new Error('Missing controller port');
+        this.controller = {
             ip: options['ip'],
             port: options['port'],
             secure: options['secure'] || false,
@@ -35,14 +35,14 @@ class Daemon {
     }
 
     async post(stats) {
-        let scheme = this.panel.secure ? 'https://' : 'http://';
+        let scheme = this.controller.secure ? 'https://' : 'http://';
         try {
-            await axios.post(`${scheme}${this.panel.ip}:${this.panel.port}/stats/${this.name}`, stats);
+            await axios.post(`${scheme}${this.controller.ip}:${this.controller.port}/stats/${this.name}`, stats);
             Cache.set('stats', stats);
         } catch(e) {
-            return this.log("Failed to post stats");
+            return this.log("Failed to post stats to controller");
         }
-        return this.log("Posted stats!")
+        return this.log("Posted stats to controller!")
 
     }
 

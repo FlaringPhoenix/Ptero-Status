@@ -78,19 +78,19 @@ class Panel {
     }
 
     async postStats() {
-        try {
-            await axios.post('https://api.bluefoxhost.com/v1/bluefox/projects/pterostatus/stats', {
-                guildID: this.guildID,
-                interval: this.interval,
-                nodes: this.nodes
-            });
-            this.log('Posted stats to BlueFox API!');
-            return;
-        } catch(e) {
-            console.error(e);
-            this.log('Could not post stats to BlueFox API!');
-            return;
-        }
+        // try {
+        //     await axios.post('https://api.bluefoxhost.com/v1/bluefox/projects/pterostatus/stats', {
+        //         guildID: this.guildID,
+        //         interval: this.interval,
+        //         nodes: this.nodes
+        //     });
+        //     this.log('Posted stats to BlueFox API!');
+        //     return;
+        // } catch(e) {
+        //     console.error(e);
+        //     this.log('Could not post stats to BlueFox API!');
+        //     return;
+        // }
     }
 
     startBot(token = this.token, interval = this.interval) {
