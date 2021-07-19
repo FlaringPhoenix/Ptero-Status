@@ -58,8 +58,8 @@ class Daemon {
             cacheInterval: this.cache,
             memory: {
                 total: memory.total,
-                used: memory.used,
-                free: memory.free,
+                used: (memory.total-memory.available),
+                free: (memory.free+memory.available),
             },
             disk: {
                 total: disk.reduce((last, current) => last.size + current.size, 0) || disk[0].size,
