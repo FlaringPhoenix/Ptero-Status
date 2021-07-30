@@ -104,6 +104,11 @@ const Controller = new Status.Controller(4000, {
 `{lastupdated.seconds}` - Current second of hour<br />
 `{lastupdated.year}` - Current year<br />
 
+# Support
+Need some help setting up Ptero-Status?
+Join BlueFox Development's Discord
+> [https://discord.gg/KHbBfWSdnZ](https://discord.gg/KHbBfWSdnZ)
+ 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
