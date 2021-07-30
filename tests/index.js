@@ -1,56 +1,6 @@
 const Status = require('../index');
 require('dotenv').config();
 
-/*
-Embed Placeholders:
-
-NODE:
-{node.name} - Node's name
-{node.memory.used} - Total node's memory
-{node.memory.total} - Total used memory
-{node.disk.used} - Total used disk
-{node.disk.total} - Total node's disk
-{node.cpu.used} - Total used cpu
-{node.cpu.cores} - Total cpu cores
-{node.cpu} - Displays the cpu model
-{node.os} - Displays the os
-{node.status} - Shows if it's online or offline
-
-NODES:
-{nodes.online} - Number of online nodes
-{nodes.offline} - Number of offline nodes
-{nodes.list} - List of nodes along with their statuses
-{nodes.total} - Number of total nodes
-
-TOTAL:
-{memory.total} - Total memory
-{disk.total} - Total disk
-{cores.total} - Total cores
-
-USED:
-{memory.used} - Total memory used by nodes
-{disk.used} - Total disk used by nodes
-{memory.used%} - Total memory percentage used by nodes 
-{disk.used%} - Total disk percentage used by nodes
-
-PTERODACTYL:
-{pterodactyl.users} - Number of current panel users
-{pterodactyl.servers} - Number of current panel servers
-{pterodactyl.locations} - Number of current panel locations
-
-DATES:
-{lastupdated} - Last updated time
-{lastupdated.date} - Currently day of the month
-{lastupdated.month} - Current month of the year
-{lastupdated.hours} - Current hour of the day
-{lastupdated.minutes} - Current minute of the hour
-{lastupdated.seconds} - Current second of hour
-{lastupdated.year} - Current year
-
-OTHER:
-{eval('CODE-HERE')} - Evals javascript code
-*/
-
 const Controller = new Status.Controller(4000, {
     token: process.env.token,
     guildID: '704423873415741510',
