@@ -75,6 +75,17 @@ const Controller = new Status.Controller(4000, {
 });
 ```
 
+### Events
+```javascript
+Controller.on('online', (node) => {
+    console.log(`Node: "${node.nodeName}" has come back online!`);
+});
+
+Controller.on('offline', (node) => {
+    console.log(`Node: "${node.nodeName}" has gone offline!`);
+});
+```
+
 ### Pterodactyl Application API Key
 You need to have pterodactyl panel installed in order to use PteroStatus' pterodactyl integration.
 Not all permissions are required on the api key. Please just give the following permissions to the api key
