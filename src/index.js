@@ -1,4 +1,4 @@
 module.exports = {
-    Daemon: require('./Daemon'),
+    Node: require('./Node'),
     Controller: require('./Controller')
 }

@@ -8,5 +8,6 @@ const apiLimiter = rateLimit({
 });
 
 router.use('/stats', apiLimiter, require('./stats'));
+router.use('/status', apiLimiter, require('./status'));
 
 module.exports = router;

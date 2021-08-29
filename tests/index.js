@@ -1,86 +1,74 @@
 const Status = require('../index');
+const express = require('express');
 require('dotenv').config();
 
-/*
-Embed Placeholders:
-
-NODE:
-{node.name} - Node's name
-{node.memory.used} - Total node's memory
-{node.memory.total} - Total used memory
-{node.disk.used} - Total used disk
-{node.disk.total} - Total node's disk
-{node.cpu.used} - Total used cpu
-{node.cpu.cores} - Total cpu cores
-{node.cpu} - Displays the cpu model
-{node.os} - Displays the os
-{node.status} - Shows if it's online or offline
-
-NODES:
-{nodes.online} - Number of online nodes
-{nodes.offline} - Number of offline nodes
-{nodes.list} - List of nodes along with their statuses
-{nodes.total} - Number of total nodes
-
-TOTAL:
-{memory.total} - Total memory
-{disk.total} - Total disk
-{cores.total} - Total cores
-
-USED:
-{memory.used} - Total memory used by nodes
-{disk.used} - Total disk used by nodes
-{memory.used%} - Total memory percentage used by nodes 
-{disk.used%} - Total disk percentage used by nodes
-
-PTERODACTYL:
-{pterodactyl.users} - Number of current panel users
-{pterodactyl.servers} - Number of current panel servers
-{pterodactyl.locations} - Number of current panel locations
-
-DATES:
-{lastupdated} - Last updated time
-{lastupdated.date} - Currently day of the month
-{lastupdated.month} - Current month of the year
-{lastupdated.hours} - Current hour of the day
-{lastupdated.minutes} - Current minute of the hour
-{lastupdated.seconds} - Current second of hour
-{lastupdated.year} - Current year
-
-OTHER:
-{eval('CODE-HERE')} - Evals javascript code
-*/
-
 const Controller = new Status.Controller(4000, {
-    token: process.env.token,
-    guildID: '704423873415741510',
-    channelID: '832318915366879263',
-    color: '#06cce2', // Embed color
+    discord: {
+        token: process.env.TOKEN,
+        channel: '873288453377384538',
+    },
     pterodactyl: {
-        panel: "https://panel.bluefoxhost.com",
-        apiKey: process.env.apiKey,
+        panel: 'https://panel.bluefoxhost.com',
+        apiKey: process.env.PANEL_API_KEY
+    },
+    notifications: {
+        discord: process.env.DISCORD_WEBHOOK,
+        webhook: 'http://0.0.0.0:5000/webhook'
     },
     node: {
-        message: '**{node.name}**: {node.status}\n```Memory: {node.memory.used}/{node.memory.total}\nDisk: {node.disk.used}/{node.disk.total}\nCPU: {node.cpu.used} ({node.cpu.cores} cores)```',
+        message: '**{node.name}**: {node.status} -> [Memory: {node.memory.used}/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
         online: '🟢 **ONLINE**',
         offline: '🔴 **OFFLINE**'
     },
     embed: {
         color: '#06cce2',
-        title: 'Node Status [{nodes.total} nodes]',
-        description: '__**Nodes**__:\n{nodes.list}\n\n__**Total**__:\nMemory: {memory.used}/{memory.total} ({memory.used%})\nDisk: {disk.used}/{disk.total} ({disk.used%})\n\n__**Pterodactyl:**__\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}',
+        title: 'Status',
+        description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}',
+        thumbnail: 'https://i.imgur.com/9b1qwml.jpg',
         footer: {
-            text: 'Last updated: {lastupdated}',
+            text: 'BlueFoxHost',
             icon: 'https://i.imgur.com/9b1qwml.jpg'
         }
     },
+    port: 4000,
     interval: 15000
+
 });
 
-
-
-const Daemon = new Status.Daemon("Node1", 15000, {
-    ip: "0.0.0.0",
-    port: "4000",
-    secure: false, // SSL
+Controller.on('online', (node) => {
+    console.log(`Node: "${node.nodeName}" has come back online!`);
 });
+
+Controller.on('offline', (node) => {
+    console.log(`Node: "${node.nodeName}" has gone offline!`);
+});
+
+const Node1 = new Status.Node({
+    name: 'Node1',
+    interval: 5000,
+    controller: 'http://0.0.0.0:4000'
+});
+
+// Test the node stopping
+setTimeout(function() {
+    Node1.stop();
+
+    // Test a new node
+    const Node2 = new Status.Node({
+        name: 'Node2',
+        interval: 5000,
+        controller: 'http://0.0.0.0:4000'
+    });
+
+}, 20000);
+
+// Webhook server
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.post('/webhook', (req, res) => {
+    console.log('Webhook recieved!')
+});
+
+app.listen(5000);

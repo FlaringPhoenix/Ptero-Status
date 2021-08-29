@@ -4,7 +4,7 @@ PteroStatus is an easy to setup [pterodactyl](https://github.com/pterodactyl/pan
 
 ## Preview
 
-![Preview](https://i.gyazo.com/fe785175ce3e08ece87ab234df6993ed.png)
+![Preview](https://cdn.flaringphoenix.com/8j1s)
 
 # Installation
 
@@ -20,43 +20,63 @@ npm i pterostatus
 ```javascript
 const Status = require('pterostatus');
 
-const Daemon = new Status.Daemon("Node1", 15000, {
-    ip: "CONTROLLER-IP",
-    port: "CONTROLLER-PORT"
+const Node = new Status.Node({
+    name: 'Node1',
+    interval: 15000,
+    controller: 'http://91.109.117.42:4000'
 });
 ```
 
-### Panel:
+### Controller: (Simple)
+```javascript
+const Status = require('pterostatus');
+
+const Controller = new Status.Controller({
+    port: 4000,
+    interval: 15000
+});
+```
+
+### Controller: (Advanced)
 ```javascript
 const Status = require('pterostatus');
 
 const Controller = new Status.Controller(4000, {
-    token: "BOT-TOKEN",
-    guildID: 'GUILD-ID',
-    channelID: 'CHANNEL-ID',
-    color: '#06cce2', // Embed color
+    discord: {
+        token: 'BOT-TOKEN',
+        channel: 'CHANNEL-ID',
+    },
     pterodactyl: {
-        panel: "https://panel.domain.com",
-        apiKey: "API-KEY",
+        panel: 'https://panel.domain.com',
+        apiKey: 'API-KEY'
+    },
+    notifications: {
+        discord: process.env.DISCORD_WEBHOOK,
+        webhook: 'http://0.0.0.0:5000/webhook'
     },
     node: {
-        message: '**{node.name}**: [Memory: {node.memory.used/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
+        message: '**{node.name}**: [Memory: {node.memory.used}/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]',
         online: '🟢 **ONLINE**',
         offline: '🔴 **OFFLINE**'
     },
     embed: {
         color: '#06cce2',
-        title: 'Node Status [{nodes.total} nodes]',
+        title: 'Node Status',
         description: '**Nodes**:\n{nodes.list}\n\n**Total**:\nMemory: {memory.used}/{memory.total}\nDisk: {disk.used}/{disk.total}\n\n**Pterodactyl:**\nUsers: {pterodactyl.users}\nServers: {pterodactyl.servers}',
         footer: {
             text: 'Last updated: {lastupdated}',
             icon: 'https://i.imgur.com/9b1qwml.jpg'
         }
     },
+    port: 4000,
     interval: 15000
 });
 ```
 
+### Pterodactyl Application API Key
+You need to have pterodactyl panel installed in order to use PteroStatus' pterodactyl integration.
+Not all permissions are required on the api key. Please just give the following permissions to the api key
+![Permissions](https://cdn.flaringphoenix.com/pRoQ)
 
 ### Placeholders:
 **NODE**:<br />
@@ -91,16 +111,6 @@ const Controller = new Status.Controller(4000, {
 **PTERODACTYL**:<br />
 `{pterodactyl.users}` - Number of current panel users<br />
 `{pterodactyl.servers}` - Number of current panel servers<br />
-`{pterodactyl.locations}` - Number of current panel locations<br />
-
-**DATES**:<br />
-`{lastupdated}` - Last updated time<br />
-`{lastupdated.date}` - Currently day of the month<br />
-`{lastupdated.month}` - Current month of the year<br />
-`{lastupdated.hours}` - Current hour of the day<br />
-`{lastupdated.minutes}` - Current minute of the hour<br />
-`{lastupdated.seconds}` - Current second of hour<br />
-`{lastupdated.year}` - Current year<br />
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
