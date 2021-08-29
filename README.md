@@ -53,7 +53,7 @@ const Controller = new Status.Controller(4000, {
         apiKey: 'API-KEY'
     },
     notifications: {
-        discord: process.env.DISCORD_WEBHOOK,
+        discord: 'https://discord.com/api/webhooks/881362307375067136/zAdAgNEdQ-h3agBh-uCYPBHu47RUWMe_JpBJCUkEelx5oDgIDX_hGi-1_xRT2j6DWZej',
         webhook: 'http://0.0.0.0:5000/webhook'
     },
     node: {
