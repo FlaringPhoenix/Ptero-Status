@@ -194,10 +194,9 @@ class Panel extends EventEmitter {
     editEmbed(message, title, description, fields, footer, color, thumbnail) {
         return new Promise(async (resolve, reject) => {
             message.edit({
-                content: `PteroStatus: v${this.version}`,
+                content: `v${this.version}`,
                 embeds: [{
                     title: title,
-                    url: this.homepage,
                     description: description,
                     fields: fields,
                     thumbnail: { url: thumbnail || '' },
