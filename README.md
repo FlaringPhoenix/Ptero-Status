@@ -1,5 +1,7 @@
-# PteroStatus
+# Ptero-Status
+![](https://img.shields.io/github/stars/BlueFox-Development/Ptero-Status) ![](https://img.shields.io/github/forks/BlueFox-Development/Ptero-Status) ![](https://img.shields.io/github/issues/BlueFox-Development/Ptero-Status) ![](https://img.shields.io/github/license/BlueFox-Development/Ptero-Status) ![](https://img.shields.io/discord/870418236078960791)
 
+# About
 PteroStatus is an easy to setup [pterodactyl](https://github.com/pterodactyl/panel) daemon status project. It will continuously update a discord embed with live stats from your daemons.
 
 ## Preview
@@ -112,6 +114,11 @@ Not all permissions are required on the api key. Please just give the following 
 `{pterodactyl.users}` - Number of current panel users<br />
 `{pterodactyl.servers}` - Number of current panel servers<br />
 
+# Support
+Need some help setting up Ptero-Status?
+Join BlueFox Development's Discord
+> [https://discord.gg/KHbBfWSdnZ](https://discord.gg/KHbBfWSdnZ)
+ 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
