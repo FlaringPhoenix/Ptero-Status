@@ -33,8 +33,7 @@ const Node = new Status.Node({
 ```javascript
 const Status = require('pterostatus');
 
-const Controller = new Status.Controller({
-    port: 4000,
+const Controller = new Status.Controller(4000, 'en', {
     interval: 15000
 });
 ```
@@ -43,7 +42,7 @@ const Controller = new Status.Controller({
 ```javascript
 const Status = require('pterostatus');
 
-const Controller = new Status.Controller(4000, {
+const Controller = new Status.Controller(4000, 'en', {
     discord: {
         token: 'BOT-TOKEN',
         channel: 'CHANNEL-ID',
@@ -70,7 +69,6 @@ const Controller = new Status.Controller(4000, {
             icon: 'https://i.imgur.com/9b1qwml.jpg'
         }
     },
-    port: 4000,
     interval: 15000
 });
 ```
@@ -124,6 +122,9 @@ Not all permissions are required on the api key. Please just give the following 
 **PTERODACTYL**:<br />
 `{pterodactyl.users}` - Number of current panel users<br />
 `{pterodactyl.servers}` - Number of current panel servers<br />
+
+### Language:
+The currently supported languages ​​are English(en) and German(de)
 
 # Support
 Need some help setting up Ptero-Status?

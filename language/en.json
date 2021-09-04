@@ -1,0 +1,23 @@
+{
+   "node": {
+       "online": "🟢 **ONLINE**",
+       "offline": "🔴 **OFFLINE**",
+       "message": "**{node.name}**: {node.status} -> [Memory: {node.memory.used}/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]"
+   },
+   "embed": {
+       "title": "Node Status [{{nodes_total}}]",
+       "description": "**Node**:\n{{nodes_list}}"
+   },
+   "notifications": {
+        "discord": {
+            "offline": {
+                "title": "❌ Offline",
+                "description": "An outage has been detected on **{{node_nodeName}}**"
+            },
+            "online": {
+                "title": "✅ Online",
+                "description": "The server is back online **{{node_nodeName}}**"
+            }
+        }
+   }
+}
