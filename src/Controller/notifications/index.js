@@ -1,4 +1,5 @@
 module.exports = {
     Discord: require('./discord'),
-    Webhook: require('./webhook')
+    Webhook: require('./webhook'),
+    Telegram: require('./telegram')
 }
