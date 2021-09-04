@@ -18,14 +18,6 @@
                  "title": "✅ Online",
                  "description": "Der Server **{{node_nodeName}}** ist nun wieder erreichbar"
              }
-         },
-         "telegram": {
-            "offline": {
-                "description": "Ein Ausfall des Servers <b>{{node_nodeName}}</b> wurde festgestellt"
-            },
-            "online": {
-                "description": "Der Server <b>{{node_nodeName}}</b> ist nun wieder erreichbar"
-            }
          }
     }
  }
