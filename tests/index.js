@@ -2,13 +2,13 @@ const Status = require('../index');
 const express = require('express');
 require('dotenv').config();
 
-const Controller = new Status.Controller(4000, {
+const Controller = new Status.Controller(4000, 'de', {
     discord: {
         token: process.env.TOKEN,
-        channel: '873288453377384538',
+        channel: process.env.CHANNEL,
     },
     pterodactyl: {
-        panel: 'https://panel.bluefoxhost.com',
+        panel: process.env.PANEL_URL,
         apiKey: process.env.PANEL_API_KEY
     },
     notifications: {
@@ -30,7 +30,6 @@ const Controller = new Status.Controller(4000, {
             icon: 'https://i.imgur.com/9b1qwml.jpg'
         }
     },
-    port: 4000,
     interval: 15000
 
 });
