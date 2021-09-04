@@ -27,6 +27,12 @@ class Panel extends EventEmitter {
             this.channelID = this.discord['channel'];
         }
 
+        if (options['telegram']) {
+            this.telegram = options['telegram'];
+            this.tgtoken = this.telegram['tgtoken'];
+            this.tgchatID = this.telegram['tgchatID'];
+        }
+
         if (options['node']) {
             this.node = options['node'];
             this.online = this.node['online'] || newi18n.translate(language, 'node.online');
@@ -64,6 +70,7 @@ class Panel extends EventEmitter {
         // Start 
         if (this.discord) this.startBot();
         if (this.ptero) this.startPterodactyl();
+        if (this.telegram) this.telegram = new Notifications.Telegram(this.tgtoken, this.tgchatID, language)
 
         // Setup express
         this.app = express();
@@ -221,10 +228,12 @@ class Panel extends EventEmitter {
             if (newStatus == true && oldStatus == false) {
                 if (this.discordWebhook != undefined) this.discordWebhook.up(node);
                 if (this.webhook != undefined) this.webhook.up(node);
+                if (this.telegram != undefined) this.telegram.up(node);
                 this.emit('online', node);
             } else if (newStatus == false && oldStatus == true) {
                 if (this.discordWebhook != undefined) this.discordWebhook.down(node);
                 if (this.webhook != undefined) this.webhook.down(node);
+                if (this.telegram != undefined) this.telegram.down(node);
                 this.emit('offline', node);
             }
         }
