@@ -30,7 +30,8 @@ const Controller = new Status.Controller(4000, 'de', {
             icon: 'https://i.imgur.com/9b1qwml.jpg'
         }
     },
-    interval: 15000
+    interval: 15000,
+    bearer_token: 'Test123'
 
 });
 
@@ -45,7 +46,8 @@ Controller.on('offline', (node) => {
 const Node1 = new Status.Node({
     name: 'Node1',
     interval: 5000,
-    controller: 'http://0.0.0.0:4000'
+    controller: 'http://0.0.0.0:4000',
+    bearer_token: 'Test123'
 });
 
 // Test the node stopping
@@ -56,7 +58,8 @@ setTimeout(function() {
     const Node2 = new Status.Node({
         name: 'Node2',
         interval: 5000,
-        controller: 'http://0.0.0.0:4000'
+        controller: 'http://0.0.0.0:4000',
+        bearer_token: 'Test12'
     });
 
 }, 20000);

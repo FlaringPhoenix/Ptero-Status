@@ -25,7 +25,8 @@ const Status = require('pterostatus');
 const Node = new Status.Node({
     name: 'Node1',
     interval: 15000,
-    controller: 'http://91.109.117.42:4000'
+    controller: 'http://91.109.117.42:4000',
+    bearer_token: 'Some secure string' //Optional
 });
 ```
 
@@ -69,7 +70,8 @@ const Controller = new Status.Controller(4000, 'en', {
             icon: 'https://i.imgur.com/9b1qwml.jpg'
         }
     },
-    interval: 15000
+    interval: 15000,
+    bearer_token: 'Some secure string' //Optional
 });
 ```
 
@@ -125,6 +127,10 @@ Not all permissions are required on the api key. Please just give the following 
 
 ### Language:
 The currently supported languages ​​are English(en) and German(de)
+
+### Bearer Authentication:
+The option bearer_token can be set in the DAEMON and CONTROLLER, it will make sure that only your nodes can communicate with eatch other.  
+If you are using this it is recommended to use HTTPS for extra security.  
 
 # Support
 Need some help setting up Ptero-Status?
