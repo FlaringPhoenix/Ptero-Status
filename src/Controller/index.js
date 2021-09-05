@@ -63,6 +63,10 @@ class Panel extends EventEmitter {
             if (this.notifications['webhook']) this.webhook = new Notifications.Webhook(this.notifications['webhook']);
         }
 
+        if (options['bearer_token']) {
+            this.bearer_token = options['bearer_token']
+        }
+
         // Repo Information
         this.version = require('../../package.json')['version'];
         this.homepage = require('../../package.json')['homepage'];
@@ -84,6 +88,21 @@ class Panel extends EventEmitter {
             res.header('Access-Control-Allow-Headers', '*');
             next();
         });
+
+        //Bearer token auth middleware
+        if (this.bearer_token) {
+            this.app.use((req, res, next) => {
+                if (!req.headers['authorization']) {
+                    this.elog(`Deamon "${req.body.nodeName}" tryed to send data without authorization!`)
+                    res.status(403).json({error: 'Bearer token is required'})
+                }else if (req.headers['authorization'] !== `Bearer ${this.bearer_token}`){
+                    this.elog(`Deamon "${req.body.nodeName}" tryed to send data with incorrect authorization!`)
+                    res.status(403).json({error: 'Bearer token is not valid'})
+                }else{
+                    next();
+                }
+            });
+        }
 
         // Logging
         this.app.use((req, res, next) => {
@@ -247,6 +266,9 @@ class Panel extends EventEmitter {
         console.log(`${chalk.blue('[CONTROLLER]')}${chalk.gray(':')} ${chalk.yellow(message)}`)
     }
 
+    elog(message) {
+        console.log(`${chalk.blue('[CONTROLLER]')}${chalk.gray(':')} ${chalk.red(message)}`);
+    }
 }
 
 module.exports = Panel;
