@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.5",
     "liquidcache": "^1.0.0",
+    "new-i18n": "^3.0.0-5",
     "os": "^0.1.1",
     "systeminformation": "^5.3.3"
   }

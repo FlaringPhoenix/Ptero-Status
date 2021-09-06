@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const si = require('systeminformation');
 const Cache = require('liquidcache');
 const { default: axios } = require('axios');
+const { response } = require('express');
 
 class Node {
     constructor(options = {}) {
@@ -14,6 +15,12 @@ class Node {
 
         if (!options['controller']) return new Error('Missing controller address');
         this.controller = options['controller'];
+
+        if (options['bearer_token']) {
+            this.config = {
+                headers: { Authorization: `Bearer ${options['bearer_token']}` }
+            };
+        }
 
         // Toggle running
         this.running = true;
@@ -45,10 +52,17 @@ class Node {
         if (!this.running) return;
         let scheme = this.controller.secure ? 'https://' : 'http://';
         try {
-            await axios.post(`${this.controller}/stats/${this.name}`, stats);
+            if(this.config){
+                await axios.post(`${this.controller}/stats/${this.name}`, stats, this.config);
+            }else{
+                await axios.post(`${this.controller}/stats/${this.name}`, stats);
+            }
             Cache.set('stats', stats);
         } catch(e) {
-            return this.log('Failed to post stats to controller');
+            if (e.response.status === 403) {
+                return this.elog(e.response.data.error);
+            }
+            return this.elog('Failed to post stats to controller');
         }
         return this.log('Posted stats to controller!')
 
@@ -85,6 +99,10 @@ class Node {
 
     log(message) {
         console.log(`${chalk.blue('[DAEMON]')}${chalk.gray(':')} ${chalk.yellow(message)}`);
+    }
+
+    elog(message) {
+        console.log(`${chalk.blue('[DAEMON]')}${chalk.gray(':')} ${chalk.red(message)}`);
     }
 }
 

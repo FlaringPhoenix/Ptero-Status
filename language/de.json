@@ -1,0 +1,23 @@
+{
+    "node": {
+        "online": "🟢 **ONLINE**",
+        "offline": "🔴 **OFFLINE**",
+        "message": "**{node.name}**: {node.status} -> [Arbeitsspeicher: {node.memory.used}/{node.memory.total}] [Festplatte: {node.disk.used}/{node.disk.total}]"
+    },
+    "embed": {
+        "title": "Knoten Status [{nodes.total}]",
+        "description": "**Knoten**:\n{nodes.list}"
+    },
+    "notifications": {
+         "discord": {
+             "offline": {
+                 "title": "❌ Offline",
+                 "description": "Ein Ausfall des Servers **{{node_nodeName}}** wurde festgestellt"
+             },
+             "online": {
+                 "title": "✅ Online",
+                 "description": "Der Server **{{node_nodeName}}** ist nun wieder erreichbar"
+             }
+         }
+    }
+ }

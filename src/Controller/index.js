@@ -5,9 +5,13 @@ const Discord = require('discord.js');
 const Notifications = require('./notifications');
 const Pterodactyl = require('./pterodactyl');
 const EventEmitter = require('events');
+const path = require('path');
+const reqPath = path.join(__dirname, '../../');
+const { default: i18n } = require('new-i18n');
+const newi18n = new i18n({ folder: path.join(reqPath, '/language'), languages: ['en','de'], fallback: 'en' })
 
 class Panel extends EventEmitter {
-    constructor(port = 4000, options = {}) {
+    constructor(port = 4000, language = 'de', options = {}) {
         super();
 
         // Node cache
@@ -25,16 +29,16 @@ class Panel extends EventEmitter {
 
         if (options['node']) {
             this.node = options['node'];
-            this.online = this.node['online'] || '🟢 **ONLINE**';
-            this.offline = this.node['offline'] || '🔴 **OFFLINE**';
-            this.nodeMessage = this.node['message'] || '**{node.name}**: {node.status} -> [Memory: {node.memory.used}/{node.memory.total}] [Disk: {node.disk.used}/{node.disk.total}]';
+            this.online = this.node['online'] || newi18n.translate(language, 'node.online');
+            this.offline = this.node['offline'] || newi18n.translate(language, 'node.offline');
+            this.nodeMessage = this.node['message'] || newi18n.translate(language, 'node.message');
         }
-        
+
         if (options['embed']) {
             this.embed = options['embed'];
             this.color = this.embed['color'];
-            this.title = this.embed['title'] || 'Node Status [{nodes.total}]';
-            this.description = this.embed['description'] || '**Nodes**:\n{nodes.list}';
+            this.title = this.embed['title'] || newi18n.translate(language, 'embed.title');
+            this.description = this.embed['description'] || newi18n.translate(language, 'embed.description');
             this.footer = this.embed['footer'];
             this.footerText = this.footer['text'] || '';
             this.footerIcon = this.footer['icon'] || '';
@@ -49,8 +53,12 @@ class Panel extends EventEmitter {
 
         if (options['notifications']) {
             this.notifications = options['notifications'];
-            if (this.notifications['discord']) this.discordWebhook = new Notifications.Discord(this.notifications['discord']);
+            if (this.notifications['discord']) this.discordWebhook = new Notifications.Discord(this.notifications['discord'], language);
             if (this.notifications['webhook']) this.webhook = new Notifications.Webhook(this.notifications['webhook']);
+        }
+
+        if (options['bearer_token']) {
+            this.bearer_token = options['bearer_token']
         }
 
         // Repo Information
@@ -73,6 +81,21 @@ class Panel extends EventEmitter {
             res.header('Access-Control-Allow-Headers', '*');
             next();
         });
+
+        //Bearer token auth middleware
+        if (this.bearer_token) {
+            this.app.use((req, res, next) => {
+                if (!req.headers['authorization']) {
+                    this.elog(`Deamon "${req.body.nodeName}" tryed to send data without authorization!`)
+                    res.status(403).json({error: 'Bearer token is required'})
+                }else if (req.headers['authorization'] !== `Bearer ${this.bearer_token}`){
+                    this.elog(`Deamon "${req.body.nodeName}" tryed to send data with incorrect authorization!`)
+                    res.status(403).json({error: 'Bearer token is not valid'})
+                }else{
+                    next();
+                }
+            });
+        }
 
         // Logging
         this.app.use((req, res, next) => {
@@ -234,6 +257,9 @@ class Panel extends EventEmitter {
         console.log(`${chalk.blue('[CONTROLLER]')}${chalk.gray(':')} ${chalk.yellow(message)}`)
     }
 
+    elog(message) {
+        console.log(`${chalk.blue('[CONTROLLER]')}${chalk.gray(':')} ${chalk.red(message)}`);
+    }
 }
 
 module.exports = Panel;
