@@ -28,7 +28,7 @@ class Discord {
     up(node) {
         let data = {
             embeds: [{
-                itle: newi18n.translate(this.language, 'notifications.discord.online.title'),
+                title: newi18n.translate(this.language, 'notifications.discord.online.title'),
                 description: newi18n.translate(this.language, 'notifications.discord.online.description', {node_nodeName: node.nodeName}),
                 thumbnail: { url: 'https://discord.com/assets/212e30e47232be03033a87dc58edaa95.svg' },
                 color:  DiscordJS.Util.resolveColor('#55FF55'),
