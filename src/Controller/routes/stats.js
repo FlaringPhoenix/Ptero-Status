@@ -10,7 +10,6 @@ router.post('/:node', function(req, res, next) {
     if (!nodeData) return res.status(404).json({ error: 'missing body' });
 
     let nodes = Cache.get('nodes');
-    let status = Cache.get('status');
 
     let existsIndex = nodes.map(n => n.nodeName).indexOf(nodeData.nodeName);
     if (existsIndex == -1) {
@@ -18,11 +17,6 @@ router.post('/:node', function(req, res, next) {
     } else {
         nodes[existsIndex] = nodeData;
     }
-
-    // Update status in cache
-    status[nodeName] = true;
-    Cache.set('status', status);
-
 
     // Update nodes in cache
     Cache.set('nodes', nodes.sort(function(a, b) {
