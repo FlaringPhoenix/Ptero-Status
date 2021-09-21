@@ -52,6 +52,10 @@ const Controller = new Status.Controller(4000, 'en', {
         panel: 'https://panel.domain.com',
         apiKey: 'API-KEY'
     },
+    telegram: {
+        tgtoken: 'Telegram Bot Token by @BotFather',
+        tgchatID: 'Chat ID'
+    },
     notifications: {
         discord: 'https://discord.com/api/webhooks/881362307375067136/zAdAgNEdQ-h3agBh-uCYPBHu47RUWMe_JpBJCUkEelx5oDgIDX_hGi-1_xRT2j6DWZej',
         webhook: 'http://0.0.0.0:5000/webhook'
